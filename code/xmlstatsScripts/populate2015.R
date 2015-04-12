@@ -1,7 +1,6 @@
 ## PULL 2015 SEASON DATA
 require(xmlstats)
 baseOutputDir <- "/home/ubuntu/workspace/repos/penguinLeague/data/2015"
-system('users')
 
 ## CHECK AND UPLL ALL DATA FROM THE PAST WEEK - UPDATES SHOULD BE IN PLACE BY THAT TIME
 seasonStart <- as.Date("2015-04-05")
