@@ -4,6 +4,7 @@ source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/getRange.
 
 today <- Sys.Date()
 currentPeriod <- which(sapply(periods, function(x){ (today-1) >= x$startDate & today <= x$endDate}))
+finishedPeriods <- which(sapply(periods, function(x){ today > x$endDate}))
 seasonPeriods <- which(sapply(periods, function(x){ (today-1) >= x$startDate }))
 
 allStats <- lapply(as.list(seasonPeriods), function(y){
@@ -81,7 +82,23 @@ leagueStats <- lapply(as.list(names(seasonPeriods)), function(y){
 })
 names(leagueStats) <- paste("period", seasonPeriods, sep="")
 
-# sapply(leagueStats, "[[", "points")
-
-
-
+wl <- lapply(as.list(names(finishedPeriods)), function(y){
+  tmp <- leagueStats[[y]]
+  pts <- tmp$points
+  wlt <- data.frame(w=rep(0, 10), l=rep(0, 10), t=rep(0, 10))
+  rownames(wlt) <- rownames(tmp)
+  for(i in 1:5){
+    mu <- periods[[y]]$matchups[[i]]
+    wlt$w[ mu[1] ] <- as.numeric(pts[ mu[1] ] > pts[ mu[2] ])
+    wlt$l[ mu[1] ] <- as.numeric(pts[ mu[1] ] < pts[ mu[2] ])
+    wlt$t[ mu[1] ] <- as.numeric(pts[ mu[1] ] == pts[ mu[2] ])
+    wlt$w[ mu[2] ] <- as.numeric(pts[ mu[2] ] > pts[ mu[1] ])
+    wlt$l[ mu[2] ] <- as.numeric(pts[ mu[2] ] < pts[ mu[1] ])
+    wlt$t[ mu[2] ] <- as.numeric(pts[ mu[2] ] == pts[ mu[1] ])
+  }
+  wlt$points <- pts
+  return(wlt)
+})
+standings <- do.call("+", wl)
+standings$team <- rownames(standings)
+standings <- standings[ order(standings$w, standings$points, decreasing = T), c("team", "w", "l", "t", "points")]

@@ -29,6 +29,11 @@ shinyServer(function(input, output) {
   output$pitchStat <- renderDataTable({
     getPitchers(input$team, per())
   }, options = list(info = FALSE, paginate = FALSE, filter = FALSE, searching = FALSE))
-    
+  
+  ## STANDINGS
+  output$standings <- renderDataTable({
+    standings
+  }, options = list(info = FALSE, paginate = FALSE, filter = FALSE, searching = FALSE, ordering = FALSE))
+  
 })
 

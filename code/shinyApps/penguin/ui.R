@@ -54,7 +54,8 @@ shinyUI(navbarPage(
   ## STANDINGS PAGE
   tabPanel(
     title = "Standings",
-    h2("UNDER CONSTRUCTION - COMING SOON!")
+    h2("Season Standings"),
+    dataTableOutput("standings")
   )
   
 ))
