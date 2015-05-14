@@ -15,9 +15,9 @@ shinyServer(function(input, output) {
   })
   
   output$battersLeft <- renderDataTable({
-    getBatters[[per()]]
+    getBatters(per())
   })
   output$pitchersLeft <- renderDataTable({
-    getPitchers[[per()]]
+    getPitchers(per())
   })  
 })
