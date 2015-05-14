@@ -40,4 +40,5 @@ allNonRosters <- lapply(as.list(names(seasonPeriods)), function(y){
 })
 names(allNonRosters) <- names(seasonPeriods)
 
+penguinConfig <- readLines("/home/ubuntu/.penguinSecretConfig")
 
