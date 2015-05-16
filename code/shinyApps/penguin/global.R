@@ -3,7 +3,7 @@ source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBoo
 source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/getRange.R")
 
 today <- Sys.Date()
-currentPeriod <- which(sapply(periods, function(x){ (today-1) >= x$startDate & today <= x$endDate}))
+currentPeriod <- which(sapply(periods, function(x){ (today-1) >= x$startDate & (today-1) <= x$endDate}))
 finishedPeriods <- which(sapply(periods, function(x){ today > x$endDate}))
 seasonPeriods <- which(sapply(periods, function(x){ (today-1) >= x$startDate }))
 
