@@ -99,6 +99,6 @@ wl <- lapply(as.list(names(finishedPeriods)), function(y){
   wlt$points <- pts
   return(wlt)
 })
-standings <- do.call("+", wl)
+standings <- Reduce("+", wl)
 standings$team <- rownames(standings)
 standings <- standings[ order(standings$w, standings$points, decreasing = T), c("team", "w", "l", "t", "points")]
