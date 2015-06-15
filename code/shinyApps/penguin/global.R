@@ -7,20 +7,7 @@ currentPeriod <- which(sapply(periods, function(x){ (today-1) >= x$startDate & (
 finishedPeriods <- which(sapply(periods, function(x){ today > x$endDate}))
 seasonPeriods <- which(sapply(periods, function(x){ (today-1) >= x$startDate }))
 
-allStats <- lapply(as.list(seasonPeriods), function(y){
-  if( length(currentPeriod) == 1 ){
-    if( y == currentPeriod ){
-      perData <- getRange(periods[[y]]$startDate, today, baseDataDir)
-    } else{
-      perData <- getRange(periods[[y]]$startDate, periods[[y]]$endDate, baseDataDir)
-    }
-  } else{
-    perData <- getRange(periods[[y]]$startDate, periods[[y]]$endDate, baseDataDir)
-  }
-  rownames(perData$batters) <- perData$batters$display_name
-  rownames(perData$pitchers) <- perData$pitchers$display_name
-  return(perData)
-})
+load(file.path(baseDataDir, "allStats.RData"))
 
 allRosters <- lapply(as.list(names(seasonPeriods)), function(y){
   tr <- lapply(as.list(allTeams), function(x){

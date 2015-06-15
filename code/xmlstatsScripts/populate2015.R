@@ -23,5 +23,37 @@ for( d in firstDate:lastDate ){
   }
 }
 
+## GET THE BY-PERIOD STATS (allStats)
+source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2015.R")
+source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/getRange.R")
+
+today <- Sys.Date()
+currentPeriod <- which(sapply(periods, function(x){ (today-1) >= x$startDate & (today-1) <= x$endDate}))
+finishedPeriods <- which(sapply(periods, function(x){ today > x$endDate}))
+seasonPeriods <- which(sapply(periods, function(x){ (today-1) >= x$startDate }))
+
+allStats <- lapply(as.list(seasonPeriods), function(y){
+  if( length(currentPeriod) == 1 ){
+    if( y == currentPeriod ){
+      perData <- getRange(periods[[y]]$startDate, today, baseDataDir)
+    } else{
+      perData <- getRange(periods[[y]]$startDate, periods[[y]]$endDate, baseDataDir)
+    }
+  } else{
+    perData <- getRange(periods[[y]]$startDate, periods[[y]]$endDate, baseDataDir)
+  }
+  rownames(perData$batters) <- perData$batters$display_name
+  rownames(perData$pitchers) <- perData$pitchers$display_name
+  return(perData)
+})
+
+save("allStats", file=file.path(baseOutputDir, "allStats.RData"))
 
 
+## GET THE ENTIRE SEASON DATA (rangeData)
+firstDate <- as.Date("2015-04-05")
+lastDate <- Sys.Date()
+
+rangeData <- getRange(firstDate, lastDate, baseOutputDir)
+
+save("rangeData", file=file.path(baseOutputDir, "rangeData.RData"))

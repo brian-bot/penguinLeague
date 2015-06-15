@@ -1,11 +1,7 @@
 source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/getRange.R")
 source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2015.R")
 
-## GET ALL OF THE PLAYER NAMES THAT ARE AVAILABLE
-firstDate <- as.Date("2015-04-05")
-lastDate <- Sys.Date()
-
-rangeData <- getRange(firstDate, lastDate, baseDataDir)
+load(file.path(baseDataDir, "rangeData.RData"))
 
 batterNames <- rangeData$batters$display_name
 names(batterNames) <- paste(rangeData$batters$display_name, " (", rangeData$batters$team, ")", sep="")
