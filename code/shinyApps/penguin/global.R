@@ -14,21 +14,29 @@ allRosters <- lapply(as.list(names(seasonPeriods)), function(y){
     a <- read.delim(file.path(baseRosterDir, y, paste(gsub(" ", "", tolower(x), fixed=T), ".tsv", sep="")), as.is=T)
     rownames(a) <- a$players
     
+    if(nrow(allStats[[y]]$batters)==0 & nrow(allStats[[y]]$pitchers)==0){
+      anyStats <- FALSE
+    } else{
+      anyStats <- TRUE
+    }
+    
     ## BATTER STATS
+    batCols <- c("players", "team", "position", "hitsbb", "r", "rbi", "hr", "sb")
     bs <- a[a$position %in% posMap[batMask], ]
-    bs <- merge(bs, allStats[[y]]$batters, by='row.names', all.x=F, all.y=F)
-    bs <- bs[, c("players", "team", "position", "hitsbb", "r", "rbi", "hr", "sb")]
+    bs <- merge(bs, allStats[[y]]$batters, by='row.names', all.x=T, all.y=F)
+    bs <- bs[, intersect(batCols, names(bs))]
     bs$position <- factor(bs$position, levels=posMap[batMask])
     bs <- bs[order(bs$position), ]
     
     ## PTICHER STATS
+    pitchCols <- c("players", "team", "position", "ip", "er", "era", "so", "w", "sv")
     ps <- a[a$position %in% posMap[!batMask], ]
-    ps <- merge(ps, allStats[[y]]$pitchers, by='row.names', all.x=F, all.y=F)
-    ps <- ps[, c("players", "team", "position", "ip", "er", "era", "so", "w", "sv")]
+    ps <- merge(ps, allStats[[y]]$pitchers, by='row.names', all.x=T, all.y=F)
+    ps <- ps[, intersect(pitchCols, names(ps))]
     ps$position <- factor(ps$position, levels=posMap[!batMask])
     ps <- ps[order(ps$position), ]
     
-    return(list(battingStats=bs, pitchingStats=ps))
+    return(list(battingStats=bs, pitchingStats=ps, anyStats=anyStats))
   })
   names(tr) <- allTeams
   tr
@@ -39,18 +47,30 @@ names(allRosters) <- names(seasonPeriods)
 ## PRE-COMPUTE ALL STATS FOR ALL seasonPeriods
 leagueBatters <- lapply(allRosters, function(y){
   lb <- lapply(y, function(x){
-    tmp <- x$battingStats[ !grepl("BENCH", x$battingStats$position), c("r", "hitsbb", "hr", "rbi", "sb")]
-    cs <- colSums(tmp)
-    cs
+    if(!x$anyStats){
+      cs <- rep(0, 5)
+      names(cs) <- c("r", "hitsbb", "hr", "rbi", "sb")
+      return(cs)
+    } else{
+      tmp <- x$battingStats[ !grepl("BENCH", x$battingStats$position), c("r", "hitsbb", "hr", "rbi", "sb")]
+      cs <- colSums(tmp)
+      return(cs)
+    }
   })
   do.call(rbind, lb)
 })
 leaguePitchers <- lapply(allRosters, function(y){
   lp <- lapply(y, function(x){
-    tmp <- x$pitchingStats[ !grepl("BENCH", x$pitchingStats$position), c("ip", "er", "so", "w", "sv")]
-    cs <- colSums(tmp)
-    cs["era"] <- cs["er"] / cs["ip"] * 9
-    cs[c("w", "sv", "so", "era")]
+    if(!x$anyStats){
+      cs <- rep(0, 4)
+      names(cs) <- c("w", "sv", "so", "era")
+      return(cs)
+    } else{
+      tmp <- x$pitchingStats[ !grepl("BENCH", x$pitchingStats$position), c("ip", "er", "so", "w", "sv")]
+      cs <- colSums(tmp)
+      cs["era"] <- cs["er"] / cs["ip"] * 9
+      return(cs[c("w", "sv", "so", "era")])
+    }
   })
   do.call(rbind, lp)
 })
