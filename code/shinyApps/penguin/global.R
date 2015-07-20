@@ -53,7 +53,7 @@ leagueBatters <- lapply(allRosters, function(y){
       return(cs)
     } else{
       tmp <- x$battingStats[ !grepl("BENCH", x$battingStats$position), c("r", "hitsbb", "hr", "rbi", "sb")]
-      cs <- colSums(tmp)
+      cs <- colSums(tmp, na.rm=TRUE)
       return(cs)
     }
   })
@@ -67,7 +67,7 @@ leaguePitchers <- lapply(allRosters, function(y){
       return(cs)
     } else{
       tmp <- x$pitchingStats[ !grepl("BENCH", x$pitchingStats$position), c("ip", "er", "so", "w", "sv")]
-      cs <- colSums(tmp)
+      cs <- colSums(tmp, na.rm=TRUE)
       cs["era"] <- cs["er"] / cs["ip"] * 9
       return(cs[c("w", "sv", "so", "era")])
     }
