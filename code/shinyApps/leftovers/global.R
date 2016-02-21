@@ -1,5 +1,5 @@
 require(shiny)
-source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2015.R")
+source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2016.R")
 source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/getRange.R")
 
 today <- Sys.Date()
