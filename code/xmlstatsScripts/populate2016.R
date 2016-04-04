@@ -26,6 +26,7 @@ for( d in firstDate:lastDate ){
 ## GET THE BY-PERIOD STATS (allStats)
 source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2016.R")
 source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/getRange.R")
+source("/home/ubuntu/workspace/repos/penguinLeague/code/xmlstatsScripts/getMlbRosters.R")
 
 today <- Sys.Date()
 currentPeriod <- which(sapply(periods, function(x){ (today-1) >= x$startDate & (today-1) <= x$endDate}))
@@ -57,3 +58,8 @@ lastDate <- Sys.Date()
 rangeData <- getRange(firstDate, lastDate, baseOutputDir)
 
 save("rangeData", file=file.path(baseOutputDir, "rangeData.RData"))
+
+## GET MLB ROSTERS
+mlbRosters <- getMlbRosters()
+
+save("mlbRosters", file=file.path(baseOutputDir, "mlbRosters.RData"))

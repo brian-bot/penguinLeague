@@ -54,27 +54,27 @@ shinyServer(function(input, output, session){
     }
     
     tagList(
-      selectInput(inputId='posC', label='C', choices=batterNames, multiple=TRUE, 
+      selectInput(inputId='posC', label='C', choices=allNames, multiple=TRUE, 
                   selected=posList[["C"]]),
-      selectInput(inputId='pos1b', label='1B', choices=batterNames, multiple=TRUE, 
+      selectInput(inputId='pos1b', label='1B', choices=allNames, multiple=TRUE, 
                   selected=posList[["1B"]]),
-      selectInput(inputId='pos2b', label='2B', choices=batterNames, multiple=TRUE, 
+      selectInput(inputId='pos2b', label='2B', choices=allNames, multiple=TRUE, 
                   selected=posList[["2B"]]),
-      selectInput(inputId='pos3b', label='3B', choices=batterNames, multiple=TRUE, 
+      selectInput(inputId='pos3b', label='3B', choices=allNames, multiple=TRUE, 
                   selected=posList[["3B"]]),
-      selectInput(inputId='posSs', label='SS', choices=batterNames, multiple=TRUE, 
+      selectInput(inputId='posSs', label='SS', choices=allNames, multiple=TRUE, 
                   selected=posList[["SS"]]),
-      selectInput(inputId='posOf', label='OF', choices=batterNames, multiple=TRUE, 
+      selectInput(inputId='posOf', label='OF', choices=allNames, multiple=TRUE, 
                   selected=posList[["OF"]]),
-      selectInput(inputId='posDh', label='DH', choices=batterNames, multiple=TRUE, 
+      selectInput(inputId='posDh', label='DH', choices=allNames, multiple=TRUE, 
                   selected=posList[["DH"]]),
-      selectInput(inputId='posBatBench', label='Batter Bench', choices=batterNames, multiple=TRUE, 
+      selectInput(inputId='posBatBench', label='Batter Bench', choices=allNames, multiple=TRUE, 
                   selected=posList[["BAT BENCH"]]),
-      selectInput(inputId='posSp', label='Starting Pitcher', choices=pitcherNames, multiple=TRUE, 
+      selectInput(inputId='posSp', label='Starting Pitcher', choices=allNames, multiple=TRUE, 
                   selected=posList[["SP"]]),
-      selectInput(inputId='posRp', label='Relief Pitcher', choices=pitcherNames, multiple=TRUE, 
+      selectInput(inputId='posRp', label='Relief Pitcher', choices=allNames, multiple=TRUE, 
                   selected=posList[["RP"]]),
-      selectInput(inputId='posPitchBench', label='Pitcher Bench', choices=pitcherNames, multiple=TRUE, 
+      selectInput(inputId='posPitchBench', label='Pitcher Bench', choices=allNames, multiple=TRUE, 
                   selected=posList[["PITCH BENCH"]])
     )
   })
