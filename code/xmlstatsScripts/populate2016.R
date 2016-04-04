@@ -3,7 +3,7 @@ require(xmlstats)
 baseOutputDir <- "/home/ubuntu/workspace/repos/penguinLeague/data/2016"
 
 ## CHECK AND UPLL ALL DATA FROM THE PAST WEEK - UPDATES SHOULD BE IN PLACE BY THAT TIME
-seasonStart <- as.Date("2015-04-03")
+seasonStart <- as.Date("2016-04-03")
 lastDate <- Sys.Date()-1
 firstDate <- max(lastDate-7, seasonStart)
 
@@ -51,7 +51,7 @@ save("allStats", file=file.path(baseOutputDir, "allStats.RData"))
 
 
 ## GET THE ENTIRE SEASON DATA (rangeData)
-firstDate <- as.Date("2015-04-03")
+firstDate <- as.Date("2016-04-03")
 lastDate <- Sys.Date()
 
 rangeData <- getRange(firstDate, lastDate, baseOutputDir)
