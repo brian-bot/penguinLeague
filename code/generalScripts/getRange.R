@@ -53,7 +53,7 @@ getRange <- function(startDate, endDate, baseDir){
                 team = team_abbreviation[ length(team_abbreviation) ],
                 er = sum(earned_runs),
                 ip = sum(innings_pitched),
-                hitsbb = sum(hits) + sum(walks),
+                hitsbb = sum(hits_allowed) + sum(walks),
                 so = sum(strike_outs),
                 w = sum(win),
                 sv = sum(save))
