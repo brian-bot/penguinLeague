@@ -14,11 +14,12 @@ rownames(rangeData$pitchers) <- pitcherNames
 
 allNames <- c(batterNames, pitcherNames)
 
-rosterNames <- mlbRosters$display_name
+rosterNames <- as.character(mlbRosters$display_name)
 names(rosterNames) <- paste(mlbRosters$display_name, " (", mlbRosters$team, ")", sep="")
 rosterNames <- rosterNames[ !(rosterNames %in% allNames) ]
 
 allNames <- c(allNames, rosterNames)
+allNames <- sort(allNames)
 
 today <- Sys.Date()
 currentPeriod <- which(sapply(periods, function(x){ today >= x$startDate & today <= x$endDate}))
