@@ -28,7 +28,7 @@ allRosters <- lapply(as.list(names(seasonPeriods)), function(y){
     bs <- bs[order(bs$position), ]
     
     ## PTICHER STATS
-    pitchCols <- c("players", "team", "position", "ip", "er", "era", "whip", "so", "w", "sv")
+    pitchCols <- c("players", "team", "position", "ip", "er", "era", "hitsbb", "whip", "so", "w", "sv")
     ps <- a[a$position %in% posMap[!batMask], ]
     ps <- merge(ps, allStats[[y]]$pitchers, by='row.names', all.x=T, all.y=F)
     ps <- ps[, intersect(pitchCols, names(ps))]
@@ -65,7 +65,7 @@ leaguePitchers <- lapply(allRosters, function(y){
       names(cs) <- c("w", "sv", "so", "era", "whip")
       return(cs)
     } else{
-      tmp <- x$pitchingStats[ !grepl("BENCH", x$pitchingStats$position), c("ip", "er", "so", "w", "sv")]
+      tmp <- x$pitchingStats[ !grepl("BENCH", x$pitchingStats$position), c("ip", "er", "so", "w", "sv", "hitsbb")]
       cs <- colSums(tmp, na.rm=TRUE)
       cs["era"] <- cs["er"] / cs["ip"] * 9
       cs["whip"] <- cs["hitsbb"] / cs["ip"]
@@ -90,23 +90,31 @@ leagueStats <- lapply(as.list(names(seasonPeriods)), function(y){
 })
 names(leagueStats) <- paste("period", seasonPeriods, sep="")
 
-wl <- lapply(as.list(names(finishedPeriods)), function(y){
-  tmp <- leagueStats[[y]]
-  pts <- tmp$points
-  wlt <- data.frame(w=rep(0, 10), l=rep(0, 10), t=rep(0, 10))
-  rownames(wlt) <- rownames(tmp)
-  for(i in 1:5){
-    mu <- periods[[y]]$matchups[[i]]
-    wlt$w[ mu[1] ] <- as.numeric(pts[ mu[1] ] > pts[ mu[2] ])
-    wlt$l[ mu[1] ] <- as.numeric(pts[ mu[1] ] < pts[ mu[2] ])
-    wlt$t[ mu[1] ] <- as.numeric(pts[ mu[1] ] == pts[ mu[2] ])
-    wlt$w[ mu[2] ] <- as.numeric(pts[ mu[2] ] > pts[ mu[1] ])
-    wlt$l[ mu[2] ] <- as.numeric(pts[ mu[2] ] < pts[ mu[1] ])
-    wlt$t[ mu[2] ] <- as.numeric(pts[ mu[2] ] == pts[ mu[1] ])
-  }
-  wlt$points <- pts
-  return(wlt)
-})
-standings <- Reduce("+", wl)
-standings$team <- rownames(standings)
-standings <- standings[ order(standings$w, standings$points, decreasing = T), c("team", "w", "l", "t", "points")]
+if(length(finishedPeriods) > 0){
+  wl <- lapply(as.list(names(finishedPeriods)), function(y){
+    tmp <- leagueStats[[y]]
+    pts <- tmp$points
+    wlt <- data.frame(w=rep(0, 10), l=rep(0, 10), t=rep(0, 10))
+    rownames(wlt) <- rownames(tmp)
+    for(i in 1:5){
+      mu <- periods[[y]]$matchups[[i]]
+      wlt$w[ mu[1] ] <- as.numeric(pts[ mu[1] ] > pts[ mu[2] ])
+      wlt$l[ mu[1] ] <- as.numeric(pts[ mu[1] ] < pts[ mu[2] ])
+      wlt$t[ mu[1] ] <- as.numeric(pts[ mu[1] ] == pts[ mu[2] ])
+      wlt$w[ mu[2] ] <- as.numeric(pts[ mu[2] ] > pts[ mu[1] ])
+      wlt$l[ mu[2] ] <- as.numeric(pts[ mu[2] ] < pts[ mu[1] ])
+      wlt$t[ mu[2] ] <- as.numeric(pts[ mu[2] ] == pts[ mu[1] ])
+    }
+    wlt$points <- pts
+    return(wlt)
+  })
+  standings <- Reduce("+", wl)
+  standings$team <- rownames(standings)
+  standings <- standings[ order(standings$w, standings$points, decreasing = T), c("team", "w", "l", "t", "points")]
+} else{
+  standings <- data.frame(team = names(allRosters$period1),
+                          w = rep(0, 10),
+                          l = rep(0, 10),
+                          t = rep(0, 10), 
+                          stringsAsFactors = FALSE)
+}
