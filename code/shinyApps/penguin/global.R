@@ -1,6 +1,5 @@
 require(shiny)
 source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2016.R")
-source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/getRange.R")
 
 today <- Sys.Date()
 currentPeriod <- which(sapply(periods, function(x){ (today-1) >= x$startDate & (today-1) <= x$endDate}))
@@ -29,7 +28,7 @@ allRosters <- lapply(as.list(names(seasonPeriods)), function(y){
     bs <- bs[order(bs$position), ]
     
     ## PTICHER STATS
-    pitchCols <- c("players", "team", "position", "ip", "er", "era", "so", "w", "sv")
+    pitchCols <- c("players", "team", "position", "ip", "er", "era", "whip", "so", "w", "sv")
     ps <- a[a$position %in% posMap[!batMask], ]
     ps <- merge(ps, allStats[[y]]$pitchers, by='row.names', all.x=T, all.y=F)
     ps <- ps[, intersect(pitchCols, names(ps))]
@@ -63,13 +62,14 @@ leaguePitchers <- lapply(allRosters, function(y){
   lp <- lapply(y, function(x){
     if(!x$anyStats){
       cs <- rep(0, 4)
-      names(cs) <- c("w", "sv", "so", "era")
+      names(cs) <- c("w", "sv", "so", "era", "whip")
       return(cs)
     } else{
       tmp <- x$pitchingStats[ !grepl("BENCH", x$pitchingStats$position), c("ip", "er", "so", "w", "sv")]
       cs <- colSums(tmp, na.rm=TRUE)
       cs["era"] <- cs["er"] / cs["ip"] * 9
-      return(cs[c("w", "sv", "so", "era")])
+      cs["whip"] <- cs["hitsbb"] / cs["ip"]
+      return(cs[c("w", "sv", "so", "era", "whip")])
     }
   })
   do.call(rbind, lp)
@@ -81,7 +81,8 @@ leagueStats <- lapply(as.list(names(seasonPeriods)), function(y){
   
   rankStats <- tmp
   rankStats$era <- -1*rankStats$era
-  pts <- rank(rankStats$hitsbb) + rank(rankStats$r) + rank(rankStats$rbi) + rank(rankStats$hr) + rank(rankStats$sb) + rank(rankStats$era) + rank(rankStats$so) + rank(rankStats$w) + rank(rankStats$sv)
+  rankStats$whip <- -1*rankStats$whip
+  pts <- rank(rankStats$hitsbb) + rank(rankStats$r) + rank(rankStats$rbi) + rank(rankStats$hr) + rank(rankStats$sb) + rank(rankStats$era) + rank(rankStats$so) + rank(rankStats$w) + rank(rankStats$sv) + rank(rankStats$whip)
   
   tmp$team <- rownames(tmp)
   tmp$points <- pts
