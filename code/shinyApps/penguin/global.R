@@ -28,7 +28,7 @@ allRosters <- lapply(as.list(names(seasonPeriods)), function(y){
     bs <- bs[order(bs$position), ]
     
     ## PTICHER STATS
-    pitchCols <- c("players", "team", "position", "ip", "er", "era", "hitsbb", "whip", "so", "w", "sv")
+    pitchCols <- c("players", "team", "position", "g", "ip", "er", "era", "hitsbb", "whip", "so", "w", "sv")
     ps <- a[a$position %in% posMap[!batMask], ]
     ps <- merge(ps, allStats[[y]]$pitchers, by='row.names', all.x=T, all.y=F)
     ps <- ps[, intersect(pitchCols, names(ps))]

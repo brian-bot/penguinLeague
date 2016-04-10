@@ -51,6 +51,7 @@ getRange <- function(startDate, endDate, baseDir){
     p <- do.call(rbind, p)
     pp <- ddply(p, .(display_name), summarize,
                 team = team_abbreviation[ length(team_abbreviation) ],
+                g = sum(pitch_count > 0),
                 er = sum(earned_runs),
                 ip = sum(innings_pitched),
                 hitsbb = sum(hits_allowed) + sum(walks),
