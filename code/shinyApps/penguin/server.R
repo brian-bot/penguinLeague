@@ -7,7 +7,12 @@ getPitchers <- function(team, period){
   allRosters[[period]][[team]][["pitchingStats"]]
 }
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
+  
+  observe({
+    invalidateLater(14400000, session)
+    system('touch restart.txt')
+  })
   
   ## PERIOD PARSING
   per <- reactive({
