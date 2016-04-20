@@ -61,7 +61,7 @@ leagueBatters <- lapply(allRosters, function(y){
 leaguePitchers <- lapply(allRosters, function(y){
   lp <- lapply(y, function(x){
     if(!x$anyStats){
-      cs <- rep(0, 4)
+      cs <- rep(0, 5)
       names(cs) <- c("w", "sv", "so", "era", "whip")
       return(cs)
     } else{
