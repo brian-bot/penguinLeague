@@ -1,6 +1,6 @@
 ## PULL 2016 SEASON DATA
 require(xmlstats)
-baseOutputDir <- "/home/ubuntu/workspace/repos/penguinLeague/data/2016"
+baseOutputDir <- "/home/brianmbot/workspace/repos/penguinLeague/data/2016"
 
 ## CHECK AND UPLL ALL DATA FROM THE PAST WEEK - UPDATES SHOULD BE IN PLACE BY THAT TIME
 seasonStart <- as.Date("2016-04-03")
@@ -24,9 +24,9 @@ for( d in firstDate:lastDate ){
 }
 
 ## GET THE BY-PERIOD STATS (allStats)
-source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2016.R")
-source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/getRange.R")
-source("/home/ubuntu/workspace/repos/penguinLeague/code/xmlstatsScripts/getMlbRosters.R")
+source("/home/brianmbot/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2016.R")
+source("/home/brianmbot/workspace/repos/penguinLeague/code/generalScripts/getRange.R")
+source("/home/brianmbot/workspace/repos/penguinLeague/code/xmlstatsScripts/getMlbRosters.R")
 
 today <- Sys.Date()
 currentPeriod <- which(sapply(periods, function(x){ (today-1) >= x$startDate & (today-1) <= x$endDate}))

@@ -1,5 +1,5 @@
-source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/getRange.R")
-source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2016.R")
+source("/home/brianmbot/workspace/repos/penguinLeague/code/generalScripts/getRange.R")
+source("/home/brianmbot/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2016.R")
 
 load(file.path(baseDataDir, "rangeData.RData"))
 load(file.path(baseDataDir, "mlbRosters.RData"))
@@ -25,4 +25,4 @@ today <- Sys.Date()
 currentPeriod <- which(sapply(periods, function(x){ today >= x$startDate & today <= x$endDate}))
 seasonPeriods <- which(sapply(periods, function(x){ today >= x$startDate }))
 
-penguinConfig <- readLines("/home/ubuntu/.penguinConfig")
+penguinConfig <- readLines("/home/brianmbot/.penguinConfig")

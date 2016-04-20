@@ -101,6 +101,6 @@ names(periods) <- paste("period", 1:length(periods), sep="")
 #####
 ## PATH VARIABLES TO BE USED TO PULL DATA (ROSTERS AND STATS)
 #####
-baseRosterDir <- "/home/ubuntu/workspace/repos/penguinLeague/data/2016/penguinRosters"
-baseDataDir <- "/home/ubuntu/workspace/repos/penguinLeague/data/2016"
+baseRosterDir <- "/home/brianmbot/workspace/repos/penguinLeague/data/2016/penguinRosters"
+baseDataDir <- "/home/brianmbot/workspace/repos/penguinLeague/data/2016"
 
