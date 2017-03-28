@@ -1,5 +1,5 @@
 require(shiny)
-source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2016.R")
+source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2017.R")
 
 today <- Sys.Date()
 currentPeriod <- which(sapply(periods, function(x){ (today-1) >= x$startDate & (today-1) <= x$endDate}))

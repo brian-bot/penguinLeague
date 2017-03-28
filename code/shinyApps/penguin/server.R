@@ -9,10 +9,10 @@ getPitchers <- function(team, period){
 
 shinyServer(function(input, output, session) {
   
-  observe({
-    invalidateLater(14400000, session)
-    system('touch restart.txt')
-  })
+  # observe({
+  #   invalidateLater(14400000, session)
+  #   system('touch restart.txt')
+  # })
   
   ## PERIOD PARSING
   per <- reactive({

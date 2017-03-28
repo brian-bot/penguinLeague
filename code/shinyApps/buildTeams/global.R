@@ -1,5 +1,5 @@
 source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/getRange.R")
-source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2016.R")
+source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2017.R")
 
 load(file.path(baseDataDir, "rangeData.RData"))
 load(file.path(baseDataDir, "mlbRosters.RData"))
