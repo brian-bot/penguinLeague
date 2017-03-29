@@ -4,7 +4,6 @@ source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBoo
 load(file.path(baseDataDir, "mlbRosters.RData"))
 rosterNames <- as.character(mlbRosters$display_name)
 names(rosterNames) <- paste(mlbRosters$display_name, " (", mlbRosters$team, ")", sep="")
-rosterNames <- rosterNames[ !(rosterNames %in% allNames) ]
 
 if(file.exists(file.path(baseDataDir, "rangeData.RData"))){
   load(file.path(baseDataDir, "rangeData.RData"))
@@ -17,6 +16,7 @@ if(file.exists(file.path(baseDataDir, "rangeData.RData"))){
   rownames(rangeData$pitchers) <- pitcherNames
   
   allNames <- c(batterNames, pitcherNames)
+  rosterNames <- rosterNames[ !(rosterNames %in% allNames) ]
   allNames <- c(allNames, rosterNames)
 } else{
   allNames <- rosterNames
