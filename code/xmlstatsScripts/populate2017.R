@@ -1,9 +1,11 @@
 ## PULL 2016 SEASON DATA
 require(xmlstats)
-baseOutputDir <- "/home/ubuntu/workspace/repos/penguinLeague/data/2017"
+baseRepoDir <- file.path(path.expand("~"), "workspace/repos/penguinLeague")
+baseDataDir <- file.path(baseRepoDir, "data/2017")
+source(file.path(baseRepoDir, "code/generalScripts/leagueBootstrap2017.R"))
 
 ## CHECK AND UPLL ALL DATA FROM THE PAST WEEK - UPDATES SHOULD BE IN PLACE BY THAT TIME
-seasonStart <- as.Date("2016-04-03")
+seasonStart <- as.Date("2017-04-02")
 lastDate <- Sys.Date()-1
 firstDate <- max(lastDate-7, seasonStart)
 
@@ -15,8 +17,8 @@ for( d in firstDate:lastDate ){
   
   dateData <- getMlbDate(d)
   ## WRITE OUT FILES FOR EACH DAY
-  bFile <- file.path(baseOutputDir, "batters", paste(d, ".tsv", sep=""))
-  pFile <- file.path(baseOutputDir, "pitchers", paste(d, ".tsv", sep=""))
+  bFile <- file.path(baseDataDir, "batters", paste(d, ".tsv", sep=""))
+  pFile <- file.path(baseDataDir, "pitchers", paste(d, ".tsv", sep=""))
   if( !is.null(dateData) ){
     write.table(dateData$batters, file=bFile, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
     write.table(dateData$pitchers, file=pFile, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
@@ -24,9 +26,8 @@ for( d in firstDate:lastDate ){
 }
 
 ## GET THE BY-PERIOD STATS (allStats)
-source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2017.R")
-source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/getRange.R")
-source("/home/ubuntu/workspace/repos/penguinLeague/code/xmlstatsScripts/getMlbRosters.R")
+source(file.path(baseRepoDir, "code/generalScripts/getRange.R"))
+source(file.path(baseRepoDir, "code/xmlstatsScripts/getMlbRosters.R"))
 
 today <- Sys.Date()
 currentPeriod <- which(sapply(periods, function(x){ (today-1) >= x$startDate & (today-1) <= x$endDate}))
@@ -48,18 +49,18 @@ allStats <- lapply(as.list(seasonPeriods), function(y){
   return(perData)
 })
 
-save("allStats", file=file.path(baseOutputDir, "allStats.RData"))
+save("allStats", file=file.path(baseDataDir, "allStats.RData"))
 
 
 ## GET THE ENTIRE SEASON DATA (rangeData)
-firstDate <- as.Date("2016-04-03")
+firstDate <- as.Date("2017-04-02")
 lastDate <- Sys.Date()
 
-rangeData <- getRange(firstDate, lastDate, baseOutputDir)
+rangeData <- getRange(firstDate, lastDate, baseDataDir)
 
-save("rangeData", file=file.path(baseOutputDir, "rangeData.RData"))
+save("rangeData", file=file.path(baseDataDir, "rangeData.RData"))
 
 ## GET MLB ROSTERS
 mlbRosters <- getMlbRosters()
 
-save("mlbRosters", file=file.path(baseOutputDir, "mlbRosters.RData"))
+save("mlbRosters", file=file.path(baseDataDir, "mlbRosters.RData"))

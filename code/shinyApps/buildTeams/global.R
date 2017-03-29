@@ -1,5 +1,7 @@
-source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/getRange.R")
-source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2017.R")
+baseRepoDir <- file.path(path.expand("~"), "workspace/repos/penguinLeague")
+baseDataDir <- file.path(baseRepoDir, "data/2017")
+source(file.path(baseRepoDir, "code/generalScripts/getRange.R"))
+source(file.path(baseRepoDir, "code/generalScripts/leagueBootstrap2017.R"))
 
 load(file.path(baseDataDir, "mlbRosters.RData"))
 rosterNames <- as.character(mlbRosters$display_name)
@@ -30,4 +32,4 @@ seasonPeriods <- which(sapply(periods, function(x){ today >= x$startDate }))
 if(length(currentPeriod) == 0){
   currentPeriod <- seasonPeriods[1]
 }
-penguinConfig <- readLines("/home/ubuntu/.penguinConfig")
+penguinConfig <- readLines(file.path(path.expand("~"), ".penguinConfig"))
