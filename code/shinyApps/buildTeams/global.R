@@ -27,8 +27,7 @@ allNames <- sort(allNames)
 today <- Sys.Date()
 currentPeriod <- which(sapply(periods, function(x){ today >= x$startDate & today <= x$endDate}))
 seasonPeriods <- which(sapply(periods, function(x){ today >= x$startDate }))
-if(length(seasonPeriods) == 0){
+if(length(currentPeriod) == 0){
   currentPeriod <- 1
-  seasonPeriods <- 1
 }
 penguinConfig <- readLines("/home/ubuntu/.penguinConfig")
