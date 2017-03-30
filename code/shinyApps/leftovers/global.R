@@ -1,6 +1,8 @@
 require(shiny)
-source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/leagueBootstrap2016.R")
-source("/home/ubuntu/workspace/repos/penguinLeague/code/generalScripts/getRange.R")
+baseRepoDir <- file.path(path.expand("~"), "workspace/repos/penguinLeague")
+baseDataDir <- file.path(baseRepoDir, "data/2017")
+source(file.path(baseRepoDir, "code/generalScripts/getRange.R"))
+source(file.path(baseRepoDir, "code/generalScripts/leagueBootstrap2017.R"))
 
 today <- Sys.Date()
 currentPeriod <- which(sapply(periods, function(x){ (today-1) >= x$startDate & today <= x$endDate}))
@@ -27,5 +29,5 @@ allNonRosters <- lapply(as.list(names(seasonPeriods)), function(y){
 })
 names(allNonRosters) <- names(seasonPeriods)
 
-penguinConfig <- readLines("/home/ubuntu/.penguinSecretConfig")
+penguinConfig <- readLines(file.path(path.expand("~"), ".penguinSecretConfig"))
 

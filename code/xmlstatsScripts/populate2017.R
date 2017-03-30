@@ -51,16 +51,16 @@ allStats <- lapply(as.list(seasonPeriods), function(y){
 
 save("allStats", file=file.path(baseDataDir, "allStats.RData"))
 
+## GET MLB ROSTERS
+mlbRosters <- getMlbRosters()
+
+save("mlbRosters", file=file.path(baseDataDir, "mlbRosters.RData"))
 
 ## GET THE ENTIRE SEASON DATA (rangeData)
 firstDate <- as.Date("2017-04-02")
 lastDate <- Sys.Date()
 
-rangeData <- getRange(firstDate, lastDate, baseDataDir)
-
-save("rangeData", file=file.path(baseDataDir, "rangeData.RData"))
-
-## GET MLB ROSTERS
-mlbRosters <- getMlbRosters()
-
-save("mlbRosters", file=file.path(baseDataDir, "mlbRosters.RData"))
+if(firstDate < lastDate){
+  rangeData <- getRange(firstDate, lastDate, baseDataDir)
+  save("rangeData", file=file.path(baseDataDir, "rangeData.RData"))
+}

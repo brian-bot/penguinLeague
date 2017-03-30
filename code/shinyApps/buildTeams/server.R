@@ -13,7 +13,7 @@ shinyServer(function(input, output, session){
   
   ## ROSTER FILE FOR SELECTED TEAM / PERIOD
   rosterFile <- reactive({
-    file.path(baseRosterDir, paste("period", input$whichPeriod, sep=""), paste(gsub(" ", "", tolower(input$penguinTeam)), ".tsv", sep=""))
+    file.path(baseDataDir, "penguinRosters", paste("period", input$whichPeriod, sep=""), paste(gsub(" ", "", tolower(input$penguinTeam)), ".tsv", sep=""))
   })
   
   ## HEADER TEXT

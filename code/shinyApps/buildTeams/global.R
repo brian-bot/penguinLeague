@@ -29,7 +29,8 @@ allNames <- sort(allNames)
 today <- Sys.Date()
 currentPeriod <- which(sapply(periods, function(x){ today >= x$startDate & today <= x$endDate}))
 seasonPeriods <- which(sapply(periods, function(x){ today >= x$startDate }))
-if(length(currentPeriod) == 0){
-  currentPeriod <- seasonPeriods[1]
+if(length(seasonPeriods) == 0){
+  seasonPeriods <- which(sapply(periods, function(x){ x$startDate == as.Date("2017-04-02")}))
+  currentPeriod <- which(sapply(periods, function(x){ x$startDate == as.Date("2017-04-02")}))
 }
 penguinConfig <- readLines(file.path(path.expand("~"), ".penguinConfig"))
