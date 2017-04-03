@@ -12,7 +12,7 @@ load(file.path(baseDataDir, "allStats.RData"))
 
 allRosters <- lapply(as.list(names(seasonPeriods)), function(y){
   tr <- lapply(as.list(allTeams), function(x){
-    a <- read.delim(file.path(baseRosterDir, y, paste(gsub(" ", "", tolower(x), fixed=T), ".tsv", sep="")), as.is=T)
+    a <- read.delim(file.path(baseDataDir, "penguinRosters", y, paste(gsub(" ", "", tolower(x), fixed=T), ".tsv", sep="")), as.is=T)
     rownames(a) <- a$players
     
     if(nrow(allStats[[y]]$batters)==0 & nrow(allStats[[y]]$pitchers)==0){
