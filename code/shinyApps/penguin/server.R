@@ -1,10 +1,5 @@
 require(shiny)
 
-today <- Sys.Date()
-currentPeriod <- which(sapply(periods, function(x){ (today-1) >= x$startDate & (today-1) <= x$endDate}))
-finishedPeriods <- which(sapply(periods, function(x){ today > x$endDate}))
-seasonPeriods <- which(sapply(periods, function(x){ (today-1) >= x$startDate }))
-
 load(file.path(baseDataDir, "allStats.RData"))
 
 allRosters <- lapply(as.list(names(seasonPeriods)), function(y){
