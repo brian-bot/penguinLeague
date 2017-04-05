@@ -19,6 +19,11 @@ getRange <- function(startDate, endDate, baseDir){
       read.delim(f, as.is=T)
     })
     b <- do.call(rbind, b)
+    ## HACK FOR JOSE RAMIREZ
+    idx <- which(b$display_name=="José Ramírez" & b$team_abbreviation=="CLE")
+    if(length(idx)>0){
+      b$display_name[idx] <- "José Enrique Ramírez"
+    }
     bb <- ddply(b, .(display_name), summarize,
                 team = team_abbreviation[ length(team_abbreviation) ],
                 hitsbb = sum(hits) + sum(walks),
