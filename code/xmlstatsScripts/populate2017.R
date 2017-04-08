@@ -64,3 +64,7 @@ if(firstDate < lastDate){
   rangeData <- getRange(firstDate, lastDate, baseDataDir)
   save("rangeData", file=file.path(baseDataDir, "rangeData.RData"))
 }
+
+## TOUCH RESTART FILES SO THEY RELOAD
+system(paste0('touch ', file.path(baseRepoDir, 'code/shinyApps/buildTeams/restart.txt')))
+system(paste0('touch ', file.path(baseRepoDir, 'code/shinyApps/penguin/restart.txt')))
