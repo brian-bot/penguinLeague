@@ -72,7 +72,7 @@ system(paste0('touch ', file.path(baseRepoDir, 'code/shinyApps/penguin/restart.t
 
 ## COPY OVER ROSTERS BEFORE NEW PERIOD STARTS
 if( currentPeriod %in% 1:8 ){
-  if( today == (periods[[currentPeriod]]$endDate-1) ){
+  if( today == (periods[[currentPeriod]]$endDate-2) ){
     theseFiles <- list.files(file.path(baseDataDir, "penguinRosters", paste("period", currentPeriod, sep="")))
     for(i in theseFiles){
       file.copy(file.path(baseDataDir, "penguinRosters", paste("period", currentPeriod, sep=""), i), 
