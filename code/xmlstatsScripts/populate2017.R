@@ -19,7 +19,7 @@ for( d in firstDate:lastDate ){
   ## WRITE OUT FILES FOR EACH DAY
   bFile <- file.path(baseDataDir, "batters", paste(d, ".tsv", sep=""))
   pFile <- file.path(baseDataDir, "pitchers", paste(d, ".tsv", sep=""))
-  if( !is.null(dateData) ){
+  if( !is.null(dateData$batters) ){
     write.table(dateData$batters, file=bFile, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
     write.table(dateData$pitchers, file=pFile, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
   }
@@ -68,3 +68,15 @@ if(firstDate < lastDate){
 ## TOUCH RESTART FILES SO THEY RELOAD
 system(paste0('touch ', file.path(baseRepoDir, 'code/shinyApps/buildTeams/restart.txt')))
 system(paste0('touch ', file.path(baseRepoDir, 'code/shinyApps/penguin/restart.txt')))
+
+
+## COPY OVER ROSTERS BEFORE NEW PERIOD STARTS
+if( currentPeriod %in% 1:8 ){
+  if( today == (periods[[currentPeriod]]$endDate-1) ){
+    theseFiles <- list.files(file.path(baseDataDir, "penguinRosters", paste("period", currentPeriod, sep="")))
+    for(i in theseFiles){
+      file.copy(file.path(baseDataDir, "penguinRosters", paste("period", currentPeriod, sep=""), i), 
+                file.path(baseDataDir, "penguinRosters", paste("period", currentPeriod+1, sep=""), i))
+    }
+  }
+}
