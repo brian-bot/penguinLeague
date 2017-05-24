@@ -104,7 +104,7 @@ if(length(finishedPeriods) > 0){
   })
   standings <- Reduce("+", wl)
   standings$team <- rownames(standings)
-  standings <- standings[ order(standings$w, standings$points, decreasing = T), c("team", "w", "l", "t", "points")]
+  standings <- standings[ order(standings$w+.5*standings$t, standings$points, decreasing = T), c("team", "w", "l", "t", "points")]
 } else{
   standings <- data.frame(team = names(allRosters$period1),
                           w = rep(0, 10),
