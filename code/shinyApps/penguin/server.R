@@ -94,10 +94,39 @@ if(length(finishedPeriods) > 0){
       mu <- periods[[y]]$matchups[[i]]
       wlt$w[ mu[1] ] <- as.numeric(pts[ mu[1] ] > pts[ mu[2] ])
       wlt$l[ mu[1] ] <- as.numeric(pts[ mu[1] ] < pts[ mu[2] ])
-      wlt$t[ mu[1] ] <- as.numeric(pts[ mu[1] ] == pts[ mu[2] ])
       wlt$w[ mu[2] ] <- as.numeric(pts[ mu[2] ] > pts[ mu[1] ])
       wlt$l[ mu[2] ] <- as.numeric(pts[ mu[2] ] < pts[ mu[1] ])
-      wlt$t[ mu[2] ] <- as.numeric(pts[ mu[2] ] == pts[ mu[1] ])
+      ## COMPLICATED TIE RULES - BAD PROGRAMMING, BUT JUST GET IT RIGHT
+      if(pts[ mu[1] ] == pts[ mu[2] ]){
+        team1cats <- 
+          (tmp$hitsbb[ mu[1] ] > tmp$hitsbb[ mu[2] ]) + 
+          (tmp$r[ mu[1] ] > tmp$r[ mu[2] ]) + 
+          (tmp$rbi[ mu[1] ] > tmp$rbi[ mu[2] ]) + 
+          (tmp$hr[ mu[1] ] > tmp$hr[ mu[2] ]) + 
+          (tmp$sb[ mu[1] ] > tmp$sb[ mu[2] ]) + 
+          (tmp$era[ mu[1] ] < tmp$era[ mu[2] ]) + 
+          (tmp$so[ mu[1] ] > tmp$so[ mu[2] ]) + 
+          (tmp$w[ mu[1] ] > tmp$w[ mu[2] ]) + 
+          (tmp$sv[ mu[1] ] > tmp$sv[ mu[2] ]) + 
+          (tmp$whip[ mu[1] ] < tmp$whip[ mu[2] ])
+        team2cats <- 
+          (tmp$hitsbb[ mu[2] ] > tmp$hitsbb[ mu[1] ]) + 
+          (tmp$r[ mu[2] ] > tmp$r[ mu[1] ]) + 
+          (tmp$rbi[ mu[2] ] > tmp$rbi[ mu[1] ]) + 
+          (tmp$hr[ mu[2] ] > tmp$hr[ mu[1] ]) + 
+          (tmp$sb[ mu[2] ] > tmp$sb[ mu[1] ]) + 
+          (tmp$era[ mu[2] ] < tmp$era[ mu[1] ]) + 
+          (tmp$so[ mu[2] ] > tmp$so[ mu[1] ]) + 
+          (tmp$w[ mu[2] ] > tmp$w[ mu[1] ]) + 
+          (tmp$sv[ mu[2] ] > tmp$sv[ mu[1] ]) + 
+          (tmp$whip[ mu[2] ] < tmp$whip[ mu[1] ])
+        wlt$w[ mu[1] ] <- as.numeric(team1cats > team2cats)
+        wlt$l[ mu[1] ] <- as.numeric(team1cats < team2cats)
+        wlt$w[ mu[2] ] <- as.numeric(team2cats > team1cats)
+        wlt$l[ mu[2] ] <- as.numeric(team2cats < team1cats)
+        wlt$t[ mu[1] ] <- as.numeric(team1cats == team2cats)
+        wlt$t[ mu[2] ] <- as.numeric(team2cats == team1cats)
+      }
     }
     wlt$points <- pts
     return(wlt)
