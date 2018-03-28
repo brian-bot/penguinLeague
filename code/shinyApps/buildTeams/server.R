@@ -103,8 +103,8 @@ shinyServer(function(input, output, session){
       vals$mess <- character()
     }
     if(length(players) > 0){
-      data.frame(players = players,
-                 position = position)
+      data.frame(position = position,
+                 players = players)
     } else{
       NULL
     }
