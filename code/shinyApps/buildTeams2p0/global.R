@@ -11,7 +11,8 @@ pitcherNames <- rangeData$pitchers$fullName
 # names(pitcherNames) <- paste(rangeData$pitchers$display_name, " (", rangeData$pitchers$team, ")", sep="")
 rownames(rangeData$pitchers) <- pitcherNames
 
-allNames <- c(batterNames, pitcherNames)
+allNames <- union(batterNames, pitcherNames)
+names(allNames) <- allNames
 allNames <- sort(allNames)
 
 today <- Sys.Date()
