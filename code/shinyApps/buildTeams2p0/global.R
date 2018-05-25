@@ -12,9 +12,6 @@ pitcherNames <- rangeData$pitchers$display_name
 rownames(rangeData$pitchers) <- pitcherNames
 
 allNames <- c(batterNames, pitcherNames)
-rosterNames <- rosterNames[ !(rosterNames %in% allNames) ]
-allNames <- c(allNames, rosterNames)
-
 allNames <- sort(allNames)
 
 today <- Sys.Date()
