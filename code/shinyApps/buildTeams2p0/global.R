@@ -3,11 +3,11 @@ baseDataDir <- file.path(baseRepoDir, "data/2018/mlb")
 source(file.path(baseRepoDir, "code/generalScripts/leagueBootstrap2018.R"))
 
 load(file.path(baseDataDir, "rangeData.RData"))
-batterNames <- rangeData$batters$display_name
+batterNames <- rangeData$batters$fullName
 # names(batterNames) <- paste(rangeData$batters$display_name, " (", rangeData$batters$team, ")", sep="")
 rownames(rangeData$batters) <- batterNames
 
-pitcherNames <- rangeData$pitchers$display_name
+pitcherNames <- rangeData$pitchers$fullName
 # names(pitcherNames) <- paste(rangeData$pitchers$display_name, " (", rangeData$pitchers$team, ")", sep="")
 rownames(rangeData$pitchers) <- pitcherNames
 
