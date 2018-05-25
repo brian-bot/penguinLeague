@@ -1,7 +1,6 @@
 ## PULL 2016 SEASON DATA
 require(xmlstats)
 baseRepoDir <- file.path(path.expand("~"), "workspace/repos/penguinLeague")
-baseRosterDir <- file.path(baseRepoDir, "data/2018")
 baseDataDir <- file.path(baseRepoDir, "data/2018/xml")
 source(file.path(baseRepoDir, "code/generalScripts/leagueBootstrap2018.R"))
 
@@ -74,10 +73,10 @@ system(paste0('touch ', file.path(baseRepoDir, 'code/shinyApps/penguin/restart.t
 ## COPY OVER ROSTERS BEFORE NEW PERIOD STARTS
 if( currentPeriod %in% 1:8 ){
   if( today == (periods[[currentPeriod]]$endDate-2) ){
-    theseFiles <- list.files(file.path(baseRosterDir, paste("period", currentPeriod, sep="")))
+    theseFiles <- list.files(file.path(baseDataDir, "penguinRosters", paste("period", currentPeriod, sep="")))
     for(i in theseFiles){
-      file.copy(file.path(baseRosterDir, paste("period", currentPeriod, sep=""), i), 
-                file.path(baseRosterDir, paste("period", currentPeriod+1, sep=""), i))
+      file.copy(file.path(baseDataDir, "penguinRosters", paste("period", currentPeriod, sep=""), i), 
+                file.path(baseDataDir, "penguinRosters", paste("period", currentPeriod+1, sep=""), i))
     }
   }
 }
