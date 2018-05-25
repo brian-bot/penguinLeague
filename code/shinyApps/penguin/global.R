@@ -1,6 +1,5 @@
 require(shiny)
 baseRepoDir <- file.path(path.expand("~"), "workspace/repos/penguinLeague")
-baseRosterDir <- file.path(baseRepoDir, "data/2018")
 baseDataDir <- file.path(baseRepoDir, "data/2018/xml")
 source(file.path(baseRepoDir, "code/generalScripts/leagueBootstrap2018.R"))
 
