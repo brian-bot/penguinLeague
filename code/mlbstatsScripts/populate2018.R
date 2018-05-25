@@ -1,5 +1,5 @@
 ## PULL 2016 SEASON DATA
-require(xmlstats)
+require(mlbstats)
 baseRepoDir <- file.path(path.expand("~"), "workspace/repos/penguinLeague")
 baseDataDir <- file.path(baseRepoDir, "data/2018/mlb")
 source(file.path(baseRepoDir, "code/generalScripts/leagueBootstrap2018.R"))
