@@ -7,8 +7,8 @@ source(file.path(baseRepoDir, "code/generalScripts/leagueBootstrap2018.R"))
 ## CHECK AND UPLL ALL DATA FROM THE PAST WEEK - UPDATES SHOULD BE IN PLACE BY THAT TIME
 seasonStart <- as.Date("2018-03-29")
 lastDate <- Sys.Date()-1
-firstDate <- seasonStart
-# firstDate <- max(lastDate-7, seasonStart)
+# firstDate <- seasonStart
+firstDate <- max(lastDate-7, seasonStart)
 
 for( d in firstDate:lastDate ){
   if( d != firstDate ){
@@ -27,7 +27,7 @@ for( d in firstDate:lastDate ){
 }
 
 ## GET THE BY-PERIOD STATS (allStats)
-source(file.path(baseRepoDir, "code/generalScripts/getRangeMlb.R"))
+source(file.path(baseRepoDir, "code/mlbstatsScripts/getRangeMlb.R"))
 # source(file.path(baseRepoDir, "code/xmlstatsScripts/getMlbRosters.R"))
 
 today <- Sys.Date()
