@@ -1,6 +1,5 @@
 baseRepoDir <- file.path(path.expand("~"), "workspace/repos/penguinLeague")
-baseDataDir <- file.path(baseRepoDir, "data/2018")
-source(file.path(baseRepoDir, "code/generalScripts/getRange.R"))
+baseDataDir <- file.path(baseRepoDir, "data/2018/xml")
 source(file.path(baseRepoDir, "code/generalScripts/leagueBootstrap2018.R"))
 
 load(file.path(baseDataDir, "mlbRosters.RData"))

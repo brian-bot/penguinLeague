@@ -4,7 +4,7 @@ load(file.path(baseDataDir, "allStats.RData"))
 
 allRosters <- lapply(as.list(names(seasonPeriods)), function(y){
   tr <- lapply(as.list(allTeams), function(x){
-    a <- read.delim(file.path(baseRosterDir, y, paste(gsub(" ", "", tolower(x), fixed=T), ".tsv", sep="")), as.is=T)
+    a <- read.delim(file.path(baseDataDir, "penguinRosters", y, paste(gsub(" ", "", tolower(x), fixed=T), ".tsv", sep="")), as.is=T)
     rownames(a) <- a$players
     
     if(nrow(allStats[[y]]$batters)==0 & nrow(allStats[[y]]$pitchers)==0){
@@ -14,7 +14,7 @@ allRosters <- lapply(as.list(names(seasonPeriods)), function(y){
     }
     
     ## BATTER STATS
-    batCols <- c("players", "team", "position", "hitsbb", "r", "rbi", "hr", "sb")
+    batCols <- c("players", "position", "hitsbb", "r", "rbi", "hr", "sb")
     bs <- a[a$position %in% posMap[batMask], ]
     bs <- merge(bs, allStats[[y]]$batters, by='row.names', all.x=T, all.y=F)
     bs <- bs[, intersect(batCols, names(bs))]
@@ -22,7 +22,7 @@ allRosters <- lapply(as.list(names(seasonPeriods)), function(y){
     bs <- bs[order(bs$position), ]
     
     ## PTICHER STATS
-    pitchCols <- c("players", "team", "position", "g", "ip", "er", "era", "hitsbb", "whip", "so", "w", "sv")
+    pitchCols <- c("players", "position", "g", "ip", "er", "era", "hitsbb", "whip", "so", "w", "sv")
     ps <- a[a$position %in% posMap[!batMask], ]
     ps <- merge(ps, allStats[[y]]$pitchers, by='row.names', all.x=T, all.y=F)
     ps <- ps[, intersect(pitchCols, names(ps))]

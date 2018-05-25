@@ -2,13 +2,14 @@
 require(xmlstats)
 baseRepoDir <- file.path(path.expand("~"), "workspace/repos/penguinLeague")
 baseRosterDir <- file.path(baseRepoDir, "data/2018")
-baseDataDir <- file.path(baseRepoDir, "data/2018/xml")
+baseDataDir <- file.path(baseRepoDir, "data/2018/mlb")
 source(file.path(baseRepoDir, "code/generalScripts/leagueBootstrap2018.R"))
 
 ## CHECK AND UPLL ALL DATA FROM THE PAST WEEK - UPDATES SHOULD BE IN PLACE BY THAT TIME
 seasonStart <- as.Date("2018-03-29")
 lastDate <- Sys.Date()-1
-firstDate <- max(lastDate-7, seasonStart)
+firstDate <- seasonStart
+# firstDate <- max(lastDate-7, seasonStart)
 
 for( d in firstDate:lastDate ){
   if( d != firstDate ){
@@ -27,8 +28,8 @@ for( d in firstDate:lastDate ){
 }
 
 ## GET THE BY-PERIOD STATS (allStats)
-source(file.path(baseRepoDir, "code/xmlstatsScripts/getRange.R"))
-source(file.path(baseRepoDir, "code/xmlstatsScripts/getMlbRosters.R"))
+source(file.path(baseRepoDir, "code/generalScripts/getRangeMlb.R"))
+# source(file.path(baseRepoDir, "code/xmlstatsScripts/getMlbRosters.R"))
 
 today <- Sys.Date()
 currentPeriod <- which(sapply(periods, function(x){ (today-1) >= x$startDate & (today-1) <= x$endDate}))
@@ -45,17 +46,17 @@ allStats <- lapply(as.list(seasonPeriods), function(y){
   } else{
     perData <- getRange(periods[[y]]$startDate, periods[[y]]$endDate, baseDataDir)
   }
-  rownames(perData$batters) <- perData$batters$display_name
-  rownames(perData$pitchers) <- perData$pitchers$display_name
+  rownames(perData$batters) <- perData$batters$fullName
+  rownames(perData$pitchers) <- perData$pitchers$fullName
   return(perData)
 })
 
 save("allStats", file=file.path(baseDataDir, "allStats.RData"))
 
 ## GET MLB ROSTERS
-mlbRosters <- getMlbRosters()
+# mlbRosters <- getMlbRosters()
 
-save("mlbRosters", file=file.path(baseDataDir, "mlbRosters.RData"))
+# save("mlbRosters", file=file.path(baseDataDir, "mlbRosters.RData"))
 
 ## GET THE ENTIRE SEASON DATA (rangeData)
 firstDate <- as.Date("2018-03-29")
@@ -67,17 +68,17 @@ if(firstDate < lastDate){
 }
 
 ## TOUCH RESTART FILES SO THEY RELOAD
-system(paste0('touch ', file.path(baseRepoDir, 'code/shinyApps/buildTeams/restart.txt')))
-system(paste0('touch ', file.path(baseRepoDir, 'code/shinyApps/penguin/restart.txt')))
+# system(paste0('touch ', file.path(baseRepoDir, 'code/shinyApps/buildTeams/restart.txt')))
+# system(paste0('touch ', file.path(baseRepoDir, 'code/shinyApps/penguin/restart.txt')))
 
 
 ## COPY OVER ROSTERS BEFORE NEW PERIOD STARTS
-if( currentPeriod %in% 1:8 ){
-  if( today == (periods[[currentPeriod]]$endDate-2) ){
-    theseFiles <- list.files(file.path(baseRosterDir, paste("period", currentPeriod, sep="")))
-    for(i in theseFiles){
-      file.copy(file.path(baseRosterDir, paste("period", currentPeriod, sep=""), i), 
-                file.path(baseRosterDir, paste("period", currentPeriod+1, sep=""), i))
-    }
-  }
-}
+# if( currentPeriod %in% 1:8 ){
+#   if( today == (periods[[currentPeriod]]$endDate-2) ){
+#     theseFiles <- list.files(file.path(baseRosterDir, paste("period", currentPeriod, sep="")))
+#     for(i in theseFiles){
+#       file.copy(file.path(baseRosterDir, paste("period", currentPeriod, sep=""), i), 
+#                 file.path(baseRosterDir, paste("period", currentPeriod+1, sep=""), i))
+#     }
+#   }
+# }
