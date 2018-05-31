@@ -3,6 +3,7 @@
 #####
 getRange <- function(startDate, endDate, baseDir){
   require(plyr)
+  require(dplyr)
   
   d0 <- as.Date(startDate)
   d1 <- as.Date(endDate)
@@ -18,7 +19,9 @@ getRange <- function(startDate, endDate, baseDir){
     b <- lapply(bFiles, function(f){
       read.delim(f, as.is=T)
     })
-    b <- do.call(rbind, b)
+    b[sapply(b, is.null)] <- NULL
+    b <- bind_rows(b)
+    # b <- do.call(rbind, b)
     bb <- ddply(b, .(fullName), summarize,
                 # team = team_abbreviation[ length(team_abbreviation) ],
                 hitsbb = sum(hits) + sum(baseOnBalls),
@@ -48,7 +51,9 @@ getRange <- function(startDate, endDate, baseDir){
       a$inningsPitched <- tmp
       a
     })
-    p <- do.call(rbind, p)
+    p[sapply(p, is.null)] <- NULL
+    p <- bind_rows(p)
+    # p <- do.call(rbind, p)
     p$win <- grepl("(W,", p$note, fixed=TRUE)
     p$save <- grepl("(S,", p$note, fixed=TRUE)
     pp <- ddply(p, .(fullName), summarize,
