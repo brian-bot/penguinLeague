@@ -67,17 +67,17 @@ if(firstDate < lastDate){
 }
 
 ## TOUCH RESTART FILES SO THEY RELOAD
-# system(paste0('touch ', file.path(baseRepoDir, 'code/shinyApps/buildTeams/restart.txt')))
-# system(paste0('touch ', file.path(baseRepoDir, 'code/shinyApps/penguin/restart.txt')))
+system(paste0('touch ', file.path(baseRepoDir, 'code/shinyApps/buildTeams2p0/restart.txt')))
+system(paste0('touch ', file.path(baseRepoDir, 'code/shinyApps/penguin2p0/restart.txt')))
 
 
 ## COPY OVER ROSTERS BEFORE NEW PERIOD STARTS
-# if( currentPeriod %in% 1:8 ){
-#   if( today == (periods[[currentPeriod]]$endDate-2) ){
-#     theseFiles <- list.files(file.path(baseDataDir, "penguinRosters", paste("period", currentPeriod, sep="")))
-#     for(i in theseFiles){
-#       file.copy(file.path(baseDataDir, "penguinRosters", paste("period", currentPeriod, sep=""), i), 
-#                 file.path(baseDataDir, "penguinRosters", paste("period", currentPeriod+1, sep=""), i))
-#     }
-#   }
-# }
+if( currentPeriod %in% 1:8 ){
+  if( today == (periods[[currentPeriod]]$endDate-2) ){
+    theseFiles <- list.files(file.path(baseDataDir, "penguinRosters", paste("period", currentPeriod, sep="")))
+    for(i in theseFiles){
+      file.copy(file.path(baseDataDir, "penguinRosters", paste("period", currentPeriod, sep=""), i),
+                file.path(baseDataDir, "penguinRosters", paste("period", currentPeriod+1, sep=""), i))
+    }
+  }
+}
