@@ -21,8 +21,10 @@ for( d in firstDate:lastDate ){
   bFile <- file.path(baseDataDir, "batters", paste(d, ".tsv", sep=""))
   pFile <- file.path(baseDataDir, "pitchers", paste(d, ".tsv", sep=""))
   if( !is.null(dateData$batters) ){
-    write.table(dateData$batters, file=bFile, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
-    write.table(dateData$pitchers, file=pFile, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
+    if( nrow(dateData$batters) != 0 ){
+      write.table(dateData$batters, file=bFile, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
+      write.table(dateData$pitchers, file=pFile, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
+    }
   }
 }
 
