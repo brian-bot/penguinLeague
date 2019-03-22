@@ -78,6 +78,8 @@ shinyServer(function(input, output, session){
                   selected=posList[["SP"]]),
       selectInput(inputId='posRp', label='Relief Pitcher', choices=allNames, multiple=TRUE, 
                   selected=posList[["RP"]]),
+      selectInput(inputId='posOp', label='Other Pitcher', choices=allNames, multiple=TRUE, 
+                  selected=posList[["OP"]]),
       selectInput(inputId='posPitchBench', label='Pitcher Bench', choices=allNames, multiple=TRUE, 
                   selected=posList[["PITCH BENCH"]])
     )

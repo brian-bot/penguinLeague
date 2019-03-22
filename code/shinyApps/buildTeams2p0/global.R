@@ -1,6 +1,6 @@
 baseRepoDir <- file.path(path.expand("~"), "workspace/repos/penguinLeague")
-baseDataDir <- file.path(baseRepoDir, "data/2018/mlb")
-source(file.path(baseRepoDir, "code/generalScripts/leagueBootstrap2018.R"))
+baseDataDir <- file.path(baseRepoDir, "data/2019/mlb")
+source(file.path(baseRepoDir, "code/generalScripts/leagueBootstrap2019.R"))
 
 load(file.path(baseDataDir, "rangeData.RData"))
 batterNames <- rangeData$batters$fullName
@@ -19,7 +19,7 @@ today <- Sys.Date()
 currentPeriod <- which(sapply(periods, function(x){ today >= x$startDate & today <= x$endDate}))
 seasonPeriods <- which(sapply(periods, function(x){ today >= x$startDate }))
 if(length(seasonPeriods) == 0){
-  seasonPeriods <- which(sapply(periods, function(x){ x$startDate == as.Date("2018-03-29")}))
-  currentPeriod <- which(sapply(periods, function(x){ x$startDate == as.Date("2018-03-29")}))
+  seasonPeriods <- which(sapply(periods, function(x){ x$startDate == as.Date("2019-03-20")}))
+  currentPeriod <- which(sapply(periods, function(x){ x$startDate == as.Date("2019-03-20")}))
 }
 penguinConfig <- readLines(file.path(path.expand("~"), ".penguinConfig"))
