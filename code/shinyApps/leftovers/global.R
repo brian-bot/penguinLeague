@@ -19,11 +19,11 @@ allNonRosters <- lapply(as.list(names(seasonPeriods)), function(y){
   
   bs <- allStats[[y]]$batters
   bs <- bs[ !(rownames(bs) %in% allPlayers), ]
-  bs <- bs[, c("display_name", "team", "hitsbb", "r", "rbi", "hr", "sb")]
+  bs <- bs[, c("fullName", "hitsbb", "r", "rbi", "hr", "sb")]
   
   ps <- allStats[[y]]$pitchers
   ps <- ps[ !(rownames(ps) %in% allPlayers), ]
-  ps <- ps[, c("display_name", "team", "ip", "er", "era", "so", "w", "sv")]
+  ps <- ps[, c("fullName", "ip", "er", "era", "so", "w", "sv")]
   return(list(battingStats=bs, pitchingStats=ps))
 })
 names(allNonRosters) <- names(seasonPeriods)
