@@ -8,7 +8,7 @@ source(file.path(baseRepoDir, "code/generalScripts/leagueBootstrap2019.R"))
 seasonStart <- as.Date("2019-03-20")
 lastDate <- Sys.Date()-1
 # firstDate <- seasonStart
-firstDate <- max(lastDate-7, seasonStart)
+firstDate <- max(lastDate-30, seasonStart)
 
 for( d in firstDate:lastDate ){
   if( d != firstDate ){
