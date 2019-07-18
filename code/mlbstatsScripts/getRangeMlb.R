@@ -17,7 +17,9 @@ getRange <- function(startDate, endDate, baseDir){
     bb <- data.frame()
   } else{
     b <- lapply(bFiles, function(f){
-      read.delim(f, as.is=T)
+      tmp <- read.delim(f, as.is=T)
+      tmp <- tmp[, c("fullName", "hits", "baseOnBalls", "runs", "rbi", "homeRuns", "stolenBases")]
+      return(tmp)
     })
     b[sapply(b, is.null)] <- NULL
     b <- bind_rows(b)
@@ -49,7 +51,8 @@ getRange <- function(startDate, endDate, baseDir){
         }
       })
       a$inningsPitched <- tmp
-      a
+      a <- a[, c("note", "fullName", "battersFaced", "earnedRuns", "inningsPitched", "hits", "baseOnBalls", "strikeOuts")]
+      return(a)
     })
     p[sapply(p, is.null)] <- NULL
     p <- bind_rows(p)
