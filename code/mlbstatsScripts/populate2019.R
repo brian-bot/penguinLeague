@@ -47,8 +47,10 @@ allStats <- lapply(as.list(seasonPeriods), function(y){
   } else{
     perData <- getRange(periods[[y]]$startDate, periods[[y]]$endDate, baseDataDir)
   }
-  rownames(perData$batters) <- perData$batters$fullName
-  rownames(perData$pitchers) <- perData$pitchers$fullName
+  rownames(perData$batters) <- paste0(perData$batters$fullName, " (", perData$batters$id, ")")
+  # perData$batters$id <- NULL
+  rownames(perData$pitchers) <- paste0(perData$pitchers$fullName, " (", perData$pitchers$id, ")")
+  # perData$pitchers$id <- NULL
   return(perData)
 })
 
@@ -65,6 +67,10 @@ lastDate <- Sys.Date()
 
 if(firstDate < lastDate){
   rangeData <- getRange(firstDate, lastDate, baseDataDir)
+  rownames(rangeData$batters) <- paste0(rangeData$batters$fullName, " (", rangeData$batters$id, ")")
+  # rangeData$batters$id <- NULL
+  rownames(rangeData$pitchers) <- paste0(rangeData$pitchers$fullName, " (", rangeData$pitchers$id, ")")
+  # rangeData$pitchers$id <- NULL
   save("rangeData", file=file.path(baseDataDir, "rangeData.RData"))
 }
 

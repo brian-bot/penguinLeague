@@ -18,13 +18,13 @@ getRange <- function(startDate, endDate, baseDir){
   } else{
     b <- lapply(bFiles, function(f){
       tmp <- read.delim(f, as.is=T)
-      tmp <- tmp[, c("fullName", "hits", "baseOnBalls", "runs", "rbi", "homeRuns", "stolenBases")]
+      tmp <- tmp[, c("id", "fullName", "hits", "baseOnBalls", "runs", "rbi", "homeRuns", "stolenBases")]
       return(tmp)
     })
     b[sapply(b, is.null)] <- NULL
     b <- bind_rows(b)
     # b <- do.call(rbind, b)
-    bb <- ddply(b, .(fullName), summarize,
+    bb <- ddply(b, .(fullName, id), summarize,
                 # team = team_abbreviation[ length(team_abbreviation) ],
                 hitsbb = sum(hits) + sum(baseOnBalls),
                 r = sum(runs),
@@ -51,7 +51,7 @@ getRange <- function(startDate, endDate, baseDir){
         }
       })
       a$inningsPitched <- tmp
-      a <- a[, c("note", "fullName", "battersFaced", "earnedRuns", "inningsPitched", "hits", "baseOnBalls", "strikeOuts")]
+      a <- a[, c("id", "note", "fullName", "battersFaced", "earnedRuns", "inningsPitched", "hits", "baseOnBalls", "strikeOuts")]
       return(a)
     })
     p[sapply(p, is.null)] <- NULL
@@ -59,7 +59,7 @@ getRange <- function(startDate, endDate, baseDir){
     # p <- do.call(rbind, p)
     p$win <- grepl("(W,", p$note, fixed=TRUE)
     p$save <- grepl("(S,", p$note, fixed=TRUE)
-    pp <- ddply(p, .(fullName), summarize,
+    pp <- ddply(p, .(fullName, id), summarize,
                 # team = team_abbreviation[ length(team_abbreviation) ],
                 g = sum(battersFaced > 0),
                 er = sum(earnedRuns),
