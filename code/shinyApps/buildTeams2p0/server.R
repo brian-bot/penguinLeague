@@ -106,9 +106,10 @@ shinyServer(function(input, output, session){
     }
     if(length(withId) > 0){
       tmp <- data.frame(position = position,
-                        withId = withId)
+                        withId = withId,
+                        stringsAsFactors = FALSE)
       tmp$players <- allNames[tmp$withId, "fullName"]
-      return(tmp)
+      return(tmp[, c("position", "players", "withId")])
     } else{
       return(NULL)
     }
