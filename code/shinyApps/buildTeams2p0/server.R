@@ -100,11 +100,11 @@ shinyServer(function(input, output, session){
     vals$succMess <- character()
     vals$writeMess <- character()
     if( any(duplicated(players)) ){
-      vals$mess <- paste("These players are listed more than once:", paste(players[duplicated(players)], collapse=", "))
+      vals$mess <- paste("These players are listed more than once:", paste(withId[duplicated(withId)], collapse=", "))
     } else{
       vals$mess <- character()
     }
-    if(length(players) > 0){
+    if(length(withId) > 0){
       tmp <- data.frame(position = position,
                         withId = withId)
       tmp$players <- allNames[tmp$withId, "fullName"]
