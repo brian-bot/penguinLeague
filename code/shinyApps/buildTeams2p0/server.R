@@ -99,7 +99,7 @@ shinyServer(function(input, output, session){
     ## CHECK FOR DUPS
     vals$succMess <- character()
     vals$writeMess <- character()
-    if( any(duplicated(players)) ){
+    if( any(duplicated(withId)) ){
       vals$mess <- paste("These players are listed more than once:", paste(withId[duplicated(withId)], collapse=", "))
     } else{
       vals$mess <- character()
