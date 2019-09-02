@@ -2,7 +2,7 @@ require(shiny)
 
 readRosterFile <- function(path){
   a <- read.delim(path, as.is=T)
-  rownames(a) <- a$players
+  rownames(a) <- a$withId
   return(a)
 }
 
@@ -41,7 +41,7 @@ shinyServer(function(input, output, session){
       rost <- readRosterFile(path)
       
       posList <- lapply(as.list(posMap), function(x){
-        tmp <- allNames[allNames %in% rost$players[rost$position == x]]
+        tmp <- allNames$withId[allNames$withId %in% rost$withId[rost$position == x]]
         if( length(tmp) == 0 ){
           return(NULL)
         } else{
@@ -54,33 +54,33 @@ shinyServer(function(input, output, session){
     }
     
     tagList(
-      selectInput(inputId='posC', label='C', choices=allNames, multiple=TRUE, 
+      selectInput(inputId='posC', label='C', choices=allNames$withId, multiple=TRUE, 
                   selected=posList[["C"]]),
-      selectInput(inputId='pos1b', label='1B', choices=allNames, multiple=TRUE, 
+      selectInput(inputId='pos1b', label='1B', choices=allNames$withId, multiple=TRUE, 
                   selected=posList[["1B"]]),
-      selectInput(inputId='pos2b', label='2B', choices=allNames, multiple=TRUE, 
+      selectInput(inputId='pos2b', label='2B', choices=allNames$withId, multiple=TRUE, 
                   selected=posList[["2B"]]),
-      selectInput(inputId='pos3b', label='3B', choices=allNames, multiple=TRUE, 
+      selectInput(inputId='pos3b', label='3B', choices=allNames$withId, multiple=TRUE, 
                   selected=posList[["3B"]]),
-      selectInput(inputId='posSs', label='SS', choices=allNames, multiple=TRUE, 
+      selectInput(inputId='posSs', label='SS', choices=allNames$withId, multiple=TRUE, 
                   selected=posList[["SS"]]),
-      selectInput(inputId='posMi', label='MI', choices=allNames, multiple=TRUE, 
+      selectInput(inputId='posMi', label='MI', choices=allNames$withId, multiple=TRUE, 
                   selected=posList[["MI"]]),
-      selectInput(inputId='posCi', label='CI', choices=allNames, multiple=TRUE, 
+      selectInput(inputId='posCi', label='CI', choices=allNames$withId, multiple=TRUE, 
                   selected=posList[["CI"]]),
-      selectInput(inputId='posOf', label='OF', choices=allNames, multiple=TRUE, 
+      selectInput(inputId='posOf', label='OF', choices=allNames$withId, multiple=TRUE, 
                   selected=posList[["OF"]]),
-      selectInput(inputId='posDh', label='DH', choices=allNames, multiple=TRUE, 
+      selectInput(inputId='posDh', label='DH', choices=allNames$withId, multiple=TRUE, 
                   selected=posList[["DH"]]),
-      selectInput(inputId='posBatBench', label='Batter Bench', choices=allNames, multiple=TRUE, 
+      selectInput(inputId='posBatBench', label='Batter Bench', choices=allNames$withId, multiple=TRUE, 
                   selected=posList[["BAT BENCH"]]),
-      selectInput(inputId='posSp', label='Starting Pitcher', choices=allNames, multiple=TRUE, 
+      selectInput(inputId='posSp', label='Starting Pitcher', choices=allNames$withId, multiple=TRUE, 
                   selected=posList[["SP"]]),
-      selectInput(inputId='posRp', label='Relief Pitcher', choices=allNames, multiple=TRUE, 
+      selectInput(inputId='posRp', label='Relief Pitcher', choices=allNames$withId, multiple=TRUE, 
                   selected=posList[["RP"]]),
-      selectInput(inputId='posOp', label='Other Pitcher', choices=allNames, multiple=TRUE, 
+      selectInput(inputId='posOp', label='Other Pitcher', choices=allNames$withId, multiple=TRUE, 
                   selected=posList[["OP"]]),
-      selectInput(inputId='posPitchBench', label='Pitcher Bench', choices=allNames, multiple=TRUE, 
+      selectInput(inputId='posPitchBench', label='Pitcher Bench', choices=allNames$withId, multiple=TRUE, 
                   selected=posList[["PITCH BENCH"]])
     )
   })
@@ -89,10 +89,10 @@ shinyServer(function(input, output, session){
   getPlayerTable <- reactive({
     rosterFile()
     
-    players <- character()
+    withId <- character()
     position <- character()
     for( pos in names(posMap) ){
-      players <- c(players, input[[pos]])
+      withId <- c(withId, input[[pos]])
       position <- c(position, rep(posMap[[pos]], length(input[[pos]])))
     }
     
@@ -105,10 +105,12 @@ shinyServer(function(input, output, session){
       vals$mess <- character()
     }
     if(length(players) > 0){
-      data.frame(position = position,
-                 players = players)
+      tmp <- data.frame(position = position,
+                        withId = withId)
+      tmp$players <- allNames[tmp$withId, "fullName"]
+      return(tmp)
     } else{
-      NULL
+      return(NULL)
     }
   })
   

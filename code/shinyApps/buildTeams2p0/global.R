@@ -3,17 +3,13 @@ baseDataDir <- file.path(baseRepoDir, "data/2019/mlb")
 source(file.path(baseRepoDir, "code/generalScripts/leagueBootstrap2019.R"))
 
 load(file.path(baseDataDir, "rangeData.RData"))
-batterNames <- rangeData$batters$fullName
-# names(batterNames) <- paste(rangeData$batters$display_name, " (", rangeData$batters$team, ")", sep="")
-rownames(rangeData$batters) <- batterNames
-
-pitcherNames <- rangeData$pitchers$fullName
-# names(pitcherNames) <- paste(rangeData$pitchers$display_name, " (", rangeData$pitchers$team, ")", sep="")
-rownames(rangeData$pitchers) <- pitcherNames
-
-allNames <- union(batterNames, pitcherNames)
-names(allNames) <- allNames
-allNames <- sort(allNames)
+allNames <- data.frame(fullName = c(rangeData$batters$fullName, rangeData$pitchers$fullName),
+                       withId = c(rownames(rangeData$batters), rownames(rangeData$pitchers)),
+                       stringsAsFactors = FALSE)
+rownames(allNames) <- NULL
+allNames <- allNames[ !duplicated(allNames), ]
+rownames(allNames) <- allNames$withId
+allNames <- allNames[ order(allNames$withId), ]
 
 today <- Sys.Date()
 currentPeriod <- which(sapply(periods, function(x){ today >= x$startDate & today <= x$endDate}))
